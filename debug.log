@@ -1,0 +1,75 @@
+[2025-12-19T11:47:35.252Z] HIT /incoming-whatsapp
+BODY: {"Body":"Book","From":"whatsapp: 123"}
+
+[2025-12-19T12:00:06.755Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM787d46e835c906184c729e3c9e334834","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM787d46e835c906184c729e3c9e334834","WaId":"916303551518","SmsStatus":"received","Body":"Book","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM787d46e835c906184c729e3c9e334834","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:00:22.813Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM73f348ad059d65a135203dab45c76baa","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM73f348ad059d65a135203dab45c76baa","WaId":"916303551518","SmsStatus":"received","Body":"N Raj kamal","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM73f348ad059d65a135203dab45c76baa","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:00:42.232Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SMa23ba3fcbfdea6d5a6fa3a52c004d24c","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SMa23ba3fcbfdea6d5a6fa3a52c004d24c","WaId":"916303551518","SmsStatus":"received","Body":"Ok","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SMa23ba3fcbfdea6d5a6fa3a52c004d24c","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:01:02.413Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM6c4d20b008d4e435659b42403ce36c62","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM6c4d20b008d4e435659b42403ce36c62","WaId":"916303551518","SmsStatus":"received","Body":"No","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM6c4d20b008d4e435659b42403ce36c62","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:01:12.204Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM8c258423e5e0baf13c11151820722f5e","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM8c258423e5e0baf13c11151820722f5e","WaId":"916303551518","SmsStatus":"received","Body":"Book","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM8c258423e5e0baf13c11151820722f5e","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:14:43.504Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SMd15166679d6882fd91cf5dd823f8a6ea","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SMd15166679d6882fd91cf5dd823f8a6ea","WaId":"916303551518","SmsStatus":"received","Body":"Book","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SMd15166679d6882fd91cf5dd823f8a6ea","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:14:57.149Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM9392a9812aec7bce5a8c02601dd480b7","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM9392a9812aec7bce5a8c02601dd480b7","WaId":"916303551518","SmsStatus":"received","Body":"9:00","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM9392a9812aec7bce5a8c02601dd480b7","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:15:13.623Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SMf22185aac82ce94f609aa8c987d05197","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SMf22185aac82ce94f609aa8c987d05197","WaId":"916303551518","SmsStatus":"received","Body":"Yes","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SMf22185aac82ce94f609aa8c987d05197","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:19:35.480Z] HIT /incoming-whatsapp
+BODY: {"Body":"yes","From":"whatsapp: 123"}
+
+[2025-12-19T12:19:48.329Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM4a8c1b7e90aa4cb49136fbfb96525a4b","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM4a8c1b7e90aa4cb49136fbfb96525a4b","WaId":"916303551518","SmsStatus":"received","Body":"Hy","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM4a8c1b7e90aa4cb49136fbfb96525a4b","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:20:00.000Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM3958d2da60e57336967dd07cd0324d0e","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM3958d2da60e57336967dd07cd0324d0e","WaId":"916303551518","SmsStatus":"received","Body":"Book","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM3958d2da60e57336967dd07cd0324d0e","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:20:18.422Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM05ab40f8678ce62b70978680fab98b0c","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM05ab40f8678ce62b70978680fab98b0c","WaId":"916303551518","SmsStatus":"received","Body":"N Raj kamal","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM05ab40f8678ce62b70978680fab98b0c","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:26:54.338Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM019d9d3770e7c74d19a0d275eb4fd994","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM019d9d3770e7c74d19a0d275eb4fd994","WaId":"916303551518","SmsStatus":"received","Body":"Hy","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM019d9d3770e7c74d19a0d275eb4fd994","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:27:15.897Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM0f756df8f01fa85dede04da0e1f1977f","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM0f756df8f01fa85dede04da0e1f1977f","WaId":"916303551518","SmsStatus":"received","Body":"Yes","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM0f756df8f01fa85dede04da0e1f1977f","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:27:22.647Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SMba289e01ffefcec48b8c9fee0c4ae935","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SMba289e01ffefcec48b8c9fee0c4ae935","WaId":"916303551518","SmsStatus":"received","Body":"Hy","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SMba289e01ffefcec48b8c9fee0c4ae935","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:29:04.660Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SMcb62ad597416c47f0a14dbc9590d24db","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SMcb62ad597416c47f0a14dbc9590d24db","WaId":"916303551518","SmsStatus":"received","Body":"Hy","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SMcb62ad597416c47f0a14dbc9590d24db","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:29:12.415Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SMac38200290d74f001d47b60e70b8b9b3","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SMac38200290d74f001d47b60e70b8b9b3","WaId":"916303551518","SmsStatus":"received","Body":"Book","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SMac38200290d74f001d47b60e70b8b9b3","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:37:38.131Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SMe02fe3459b7a926c526e0d270bab8af4","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SMe02fe3459b7a926c526e0d270bab8af4","WaId":"916303551518","SmsStatus":"received","Body":"Hi","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SMe02fe3459b7a926c526e0d270bab8af4","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:38:01.349Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SMbc478cdf20963db61cf9a32d68a52264","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SMbc478cdf20963db61cf9a32d68a52264","WaId":"916303551518","SmsStatus":"received","Body":"Book","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SMbc478cdf20963db61cf9a32d68a52264","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:56:49.185Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM8846f4c79bade2f362c0776e2cd3028c","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM8846f4c79bade2f362c0776e2cd3028c","WaId":"916303551518","SmsStatus":"received","Body":"Hi","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM8846f4c79bade2f362c0776e2cd3028c","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:56:59.455Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM5e63e1c20f338a35f923a91a27be9df9","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM5e63e1c20f338a35f923a91a27be9df9","WaId":"916303551518","SmsStatus":"received","Body":"Book","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM5e63e1c20f338a35f923a91a27be9df9","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T12:57:10.202Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM5430743bcb0ebea20ad05c72d4f87f15","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM5430743bcb0ebea20ad05c72d4f87f15","WaId":"916303551518","SmsStatus":"received","Body":"N.Rajkamal","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM5430743bcb0ebea20ad05c72d4f87f15","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T13:46:37.236Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SM915b1df48b2a31e7facadb7145514b8c","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SM915b1df48b2a31e7facadb7145514b8c","WaId":"916303551518","SmsStatus":"received","Body":"Hi","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SM915b1df48b2a31e7facadb7145514b8c","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
+[2025-12-19T13:46:50.247Z] HIT /incoming-whatsapp
+BODY: {"SmsMessageSid":"SMdcf346946b58d36d0abdc90f5e6a4bf6","NumMedia":"0","ProfileName":"Rajkamal","MessageType":"text","SmsSid":"SMdcf346946b58d36d0abdc90f5e6a4bf6","WaId":"916303551518","SmsStatus":"received","Body":"Book","To":"whatsapp:+14155238886","NumSegments":"1","ReferralNumMedia":"0","MessageSid":"SMdcf346946b58d36d0abdc90f5e6a4bf6","AccountSid":"AC7dbd5846ab3814c4518e96fd6864dd0b","ChannelMetadata":"{\"type\":\"whatsapp\",\"data\":{\"context\":{\"ProfileName\":\"Rajkamal\",\"WaId\":\"916303551518\"}}}","From":"whatsapp:+916303551518","ApiVersion":"2010-04-01"}
+
