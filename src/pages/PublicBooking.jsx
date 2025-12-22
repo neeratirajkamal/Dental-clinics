@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, User, Phone, Activity, CheckCircle, ChevronLeft, ChevronRight, Clock, MapPin, Star, MessageCircle } from 'lucide-react';
 
 // Clinic WhatsApp Number (Update this to your actual clinic number with country code)
-const CLINIC_WHATSAPP = '+919876543210'; // Example: India number
+const CLINIC_WHATSAPP = '916303551518'; // Real clinic number
 const CLINIC_NAME = 'Smile Dental Clinic';
 const BOOKING_PAGE_URL = 'http://localhost:5173/book'; // Update for production
 
@@ -72,6 +72,33 @@ const StepDoctor = ({ formData, setFormData, handleNext }) => (
 
 const StepDateTime = ({ formData, setFormData, handleBack, handleNext }) => {
     const calendarDays = getNextDays();
+    const [availableSlots, setAvailableSlots] = useState([]);
+    const [isLoadingSlots, setIsLoadingSlots] = useState(false);
+
+    // Fetch slots when Date or Doctor changes
+    React.useEffect(() => {
+        const fetchSlots = async () => {
+            if (!formData.date || !formData.doctor) return;
+
+            setIsLoadingSlots(true);
+            try {
+                const res = await fetch(`/api/available-slots?date=${formData.date}&doctor=${encodeURIComponent(formData.doctor)}`);
+                const slots = await res.json();
+                setAvailableSlots(slots);
+            } catch (err) {
+                console.error("Failed to fetch slots", err);
+                // Fallback to static if API fails
+                setAvailableSlots([
+                    '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
+                    '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM', '05:00 PM'
+                ]);
+            } finally {
+                setIsLoadingSlots(false);
+            }
+        };
+
+        fetchSlots();
+    }, [formData.date, formData.doctor]);
 
     return (
         <div className="step-content">
@@ -97,17 +124,28 @@ const StepDateTime = ({ formData, setFormData, handleBack, handleNext }) => {
             </div>
 
             <h3 className="section-label">Available Time Slots</h3>
-            <div className="time-grid">
-                {timeSlots.map(time => (
-                    <button
-                        key={time}
-                        className={`time-chip ${formData.time === time ? 'selected' : ''}`}
-                        onClick={() => setFormData({ ...formData, time })}
-                    >
-                        {time}
-                    </button>
-                ))}
-            </div>
+
+            {isLoadingSlots ? (
+                <div className="slots-loading">
+                    <div className="spinner-micro"></div> Checking availability...
+                </div>
+            ) : availableSlots.length === 0 ? (
+                <div className="no-slots">
+                    <p>No slots available for this date. Please try another day.</p>
+                </div>
+            ) : (
+                <div className="time-grid">
+                    {availableSlots.map(time => (
+                        <button
+                            key={time}
+                            className={`time-chip ${formData.time === time ? 'selected' : ''}`}
+                            onClick={() => setFormData({ ...formData, time })}
+                        >
+                            {time}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             <div className="nav-buttons">
                 <button className="btn-text" onClick={handleBack}><ChevronLeft size={18} /> Back</button>
@@ -133,6 +171,17 @@ const StepDetails = ({ formData, setFormData, handleBack, handleSubmit }) => (
                     required
                     value={formData.patient}
                     onChange={e => setFormData({ ...formData, patient: e.target.value })}
+                />
+            </div>
+
+            <div className="input-group">
+                <User className="input-icon" size={20} />
+                <input
+                    type="email"
+                    placeholder="Email Address"
+                    required
+                    value={formData.email}
+                    onChange={e => setFormData({ ...formData, email: e.target.value })}
                 />
             </div>
 
@@ -189,6 +238,11 @@ const StepDetails = ({ formData, setFormData, handleBack, handleSubmit }) => (
             <div className="summary-row">
                 <MapPin size={16} /> <span>{formData.doctor} - {formData.specialty}</span>
             </div>
+            {formData.email && (
+                <div className="summary-row">
+                    <User size={16} /> <span>{formData.email}</span>
+                </div>
+            )}
         </div>
 
         <div className="nav-buttons">
@@ -228,6 +282,10 @@ const StepSuccess = ({ formData }) => (
                 <strong>{formData.patient}</strong>
             </div>
             <div className="ticket-row">
+                <span>Email</span>
+                <strong>{formData.email}</strong>
+            </div>
+            <div className="ticket-row">
                 <span>Treatment</span>
                 <strong>{formData.treatmentType}</strong>
             </div>
@@ -249,6 +307,7 @@ export const PublicBooking = () => {
         tomorrow.setDate(tomorrow.getDate() + 1);
         return {
             patient: '',
+            email: '',
             phone: '',
             age: '',
             date: tomorrow.toISOString().split('T')[0],

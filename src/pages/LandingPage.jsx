@@ -57,7 +57,7 @@ export const LandingPage = () => {
 
     const handleWhatsApp = () => {
         const message = encodeURIComponent('Hello! I would like to book an appointment at your dental clinic.');
-        window.open(`https://wa.me/+919876543210?text=${message}`, '_blank');
+        window.open(`https://wa.me/916303551518?text=${message}`, '_blank');
     };
 
     return (
@@ -302,7 +302,7 @@ export const LandingPage = () => {
                         </div>
                         <div className="footer-contact">
                             <h4>Contact Us</h4>
-                            <p><Phone size={16} /> +91 98765 43210</p>
+                            <p><Phone size={16} /> +91 6303551518</p>
                             <p><MapPin size={16} /> 123 Dental Street, Medical Plaza</p>
                             <p><Clock size={16} /> Mon-Sat: 9AM - 7PM</p>
                         </div>

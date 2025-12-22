@@ -120,8 +120,14 @@ app.post('/api/appointments', async (req, res) => {
             console.error('[Automation] N8N Fetch Error:', e.message);
         }
     } else {
-        console.warn('[Automation] N8N_WEBHOOK_URL not set in .env');
+        // console.warn('[Automation] N8N_WEBHOOK_URL not set in .env');
     }
+
+    // --- TRIGGER INTERNAL AI AGENTS IMMEDIATELY ---
+    console.log('[System] 🚀 Triggering Immediate AI Agent Workflow...');
+    setImmediate(async () => {
+        await runAgentCycle();
+    });
 
     // (Optional) Internal Twilio Logic - Commented out to let n8n handle it
     /*
@@ -202,10 +208,35 @@ app.delete('/api/doctors/:id', (req, res) => {
 
 // End of generic API endpoints
 
-// WhatsApp Bot Webhook - Enhanced Dental Clinic Flow
+// Basic Availability Endpoint
+app.get('/api/available-slots', (req, res) => {
+    const { date, doctor } = req.query;
+
+    // Standard slots (Could be configurable per doctor/day in future)
+    const allSlots = [
+        '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
+        '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM', '05:00 PM'
+    ];
+
+    if (!date || !doctor) {
+        return res.json(allSlots);
+    }
+
+    // Find booked slots
+    const bookedSlots = db.appointments
+        .filter(a => a.date === date && a.doctor === doctor && a.status === 'Confirmed')
+        .map(a => a.time);
+
+    // Filter available
+    const available = allSlots.filter(time => !bookedSlots.includes(time));
+
+    res.json(available);
+});
+
+// WhatsApp Bot Webhook - Enhanced Dental Clinic Flow (MediEaseAI Style)
 const userState = {};
-const CLINIC_NAME = 'Smile Dental Clinic';
-const BOOKING_URL = 'http://localhost:5173/book'; // Update for production/ngrok
+const CLINIC_NAME = 'Dental Clinic';
+const BOOKING_URL = 'https://subdeltaic-angele-nonphrenetically.ngrok-free.dev/book';
 
 app.post('/incoming-whatsapp', async (req, res) => {
     const from = req.body.From;
@@ -216,123 +247,13 @@ app.post('/incoming-whatsapp', async (req, res) => {
 
     let responseText = '';
 
-    // Initial greeting when user first clicks/joins
-    if (!userState[from] && (body === 'hi' || body === 'hello' || body === 'hey' || body === 'start')) {
-        responseText = `🦷 *Welcome to ${CLINIC_NAME}!*\n\nHow can I assist you Today?\n\n1️⃣ Reply *BOOK* - Schedule an appointment\n2️⃣ Reply *TECH* - Report technical issues\n3️⃣ Reply *TEAM* - Speak with our chat team\n4️⃣ Reply *SERVICES* - View our services\n5️⃣ Reply *MENU* - Show all options`;
-        userState[from] = { step: 'IDLE' };
+    // Initial greeting when user sends Hi
+    if (body === 'hi' || body === 'hello' || body === 'hey' || body === 'hy') {
+        responseText = `Welcome to Dental Clinic How can I assist you Today ?\n\nClick below to book an appointment:\n${BOOKING_URL}`;
     }
-    // Booking option
-    else if (body === 'book' || body === '1') {
-        responseText = `📅 *Book Your Appointment*\n\nYou can book instantly via our portal:\n${BOOKING_URL}\n\nOr reply with your *full name* to continue here:`;
-        userState[from] = { step: 'NAME', startTime: Date.now() };
-    }
-    // Technical Issues
-    else if (body === 'tech' || body === '2') {
-        responseText = `🛠️ *Technical Support*\n\nPlease describe the issue you're facing. Our chat team will get to you shortly!`;
-        userState[from] = { step: 'SUPPORT' };
-    }
-    // Team / Contact soon
-    else if (body === 'team' || body === 'contact' || body === '3') {
-        responseText = `🤝 *Connect with Team*\n\nOur chat team will get in contact with you shortly! Please stay tuned.`;
-        userState[from] = { step: 'IDLE' };
-    }
-    // Name step
-    else if (userState[from]?.step === 'NAME') {
-        userState[from].name = originalBody;
-        userState[from].step = 'PHONE';
-        responseText = `Thanks *${userState[from].name}*! 👋\n\nPlease enter your *phone number* (for appointment reminders):`;
-    }
-    // Phone step
-    else if (userState[from]?.step === 'PHONE') {
-        userState[from].phone = originalBody;
-        userState[from].step = 'TREATMENT';
-        responseText = `Got it! 📱\n\nWhat *treatment* do you need?\n\n1️⃣ General Checkup\n2️⃣ Dental Cleaning\n3️⃣ Cavity Filling\n4️⃣ Root Canal\n5️⃣ Teeth Whitening\n6️⃣ Other\n\nReply with the number or type:`;
-    }
-    // Treatment step
-    else if (userState[from]?.step === 'TREATMENT') {
-        const treatments = {
-            '1': 'General Checkup', '2': 'Dental Cleaning', '3': 'Cavity Filling',
-            '4': 'Root Canal', '5': 'Teeth Whitening', '6': 'Other'
-        };
-        userState[from].treatment = treatments[body] || originalBody;
-        userState[from].step = 'DATE';
-        responseText = `🦷 *${userState[from].treatment}* - Great choice!\n\nWhat *date* works for you?\n\nPlease reply with your preferred date (e.g., "Tomorrow", "Monday", "25 Dec"):`;
-    }
-    // Date step
-    else if (userState[from]?.step === 'DATE') {
-        userState[from].date = originalBody;
-        userState[from].step = 'TIME';
-        responseText = `📅 Date: *${userState[from].date}*\n\nWhat *time* would you prefer?\n\nOur available slots:\n🕐 9:00 AM - 12:00 PM\n🕐 2:00 PM - 6:00 PM\n\nReply with your preferred time (e.g., "10:00 AM"):`;
-    }
-    // Time step - Final confirmation
-    else if (userState[from]?.step === 'TIME') {
-        userState[from].time = originalBody;
-        userState[from].step = 'CONFIRM';
-
-        responseText = `📋 *Please Confirm Your Appointment*\n\n🦷 *${CLINIC_NAME}*\n━━━━━━━━━━━━━━━\n👤 Name: ${userState[from].name}\n📱 Phone: ${userState[from].phone}\n🏥 Treatment: ${userState[from].treatment}\n📅 Date: ${userState[from].date}\n🕐 Time: ${userState[from].time}\n━━━━━━━━━━━━━━━\n\nReply *CONFIRM* to book this slot\nReply *CANCEL* to start over`;
-    }
-    // Confirmation
-    else if (userState[from]?.step === 'CONFIRM' && body === 'confirm') {
-        // Save to database
-        const appointment = {
-            id: Date.now(),
-            patient: userState[from].name,
-            phone: userState[from].phone,
-            date: userState[from].date,
-            time: userState[from].time,
-            type: userState[from].treatment,
-            doctor: 'Dr. Sarah Wilson',
-            status: 'Confirmed',
-            source: 'WhatsApp',
-            timestamp: new Date().toISOString()
-        };
-
-        db.appointments.push(appointment);
-
-        // Add patient if new
-        const existingPatient = db.patients.find(p => p.phone === userState[from].phone);
-        if (!existingPatient) {
-            db.patients.push({
-                id: Date.now(),
-                name: userState[from].name,
-                phone: userState[from].phone,
-                lastVisit: 'First Visit',
-                condition: 'New Patient',
-                nextAppt: userState[from].date
-            });
-        }
-
-        saveDB();
-        console.log('[WhatsApp Bot] Appointment booked:', appointment);
-
-        responseText = `✅ *Appointment Confirmed!*\n\n🎉 Thank you for choosing ${CLINIC_NAME}!\n\nYour appointment details have been saved. We'll send you a reminder before your visit.\n\n📍 *Address:* 123 Dental Street, Medical Plaza\n📞 *Contact:* +91 98765 43210\n\nSee you soon! 🦷✨\n\nReply *MENU* for more options.`;
-
-        delete userState[from];
-    }
-    // Cancel
-    else if (body === 'cancel') {
-        delete userState[from];
-        responseText = `❌ Booking cancelled.\n\nNo worries! Reply *BOOK* whenever you're ready to schedule an appointment.`;
-    }
-    // Services info
-    else if (body === 'services' || body === '2') {
-        responseText = `🦷 *Our Dental Services*\n\n✨ *General Dentistry*\n• Checkups & Cleanings\n• Cavity Fillings\n• Root Canal Treatment\n\n💎 *Cosmetic Dentistry*\n• Teeth Whitening\n• Veneers\n• Smile Makeover\n\n👶 *Pediatric Dentistry*\n• Kids Checkups\n• Fluoride Treatment\n\n🦷 *Orthodontics*\n• Braces\n• Aligners\n\nReply *BOOK* to schedule your appointment!`;
-    }
-    // Hours info
-    else if (body === 'hours' || body === '3') {
-        responseText = `🕐 *Clinic Hours*\n\n*Monday - Friday:*\n9:00 AM - 1:00 PM\n3:00 PM - 7:00 PM\n\n*Saturday:*\n9:00 AM - 2:00 PM\n\n*Sunday:* Closed\n\nReply *BOOK* to schedule your appointment!`;
-    }
-    // Location info
-    else if (body === 'location' || body === '4') {
-        responseText = `📍 *Our Location*\n\n*${CLINIC_NAME}*\n123 Dental Street\nMedical Plaza, 2nd Floor\nCity, State - 123456\n\n🗺️ Google Maps: [Click Here]\n\nReply *BOOK* to schedule your appointment!`;
-    }
-    // Menu
-    else if (body === 'menu' || body === 'help') {
-        responseText = `🦷 *${CLINIC_NAME} Menu*\n\n1️⃣ *BOOK* - Schedule appointment\n2️⃣ *SERVICES* - Our services\n3️⃣ *HOURS* - Clinic timings\n4️⃣ *LOCATION* - Find us\n\nHow can we help you?`;
-    }
-    // Default response
+    // Fallback for other inputs
     else {
-        responseText = `🦷 *Welcome to ${CLINIC_NAME}!*\n\nI didn't quite understand that.\n\nReply with:\n• *BOOK* to schedule an appointment\n• *MENU* for all options\n• *HI* to start over`;
+        responseText = `Welcome to Dental Clinic How can I assist you Today ?\n\nClick below to book an appointment:\n${BOOKING_URL}`;
     }
 
     const twiml = new twilio.twiml.MessagingResponse();
@@ -402,7 +323,7 @@ const NotificationAgent = {
                     try {
                         await client.messages.create({
                             from: 'whatsapp:+14155238886',
-                            body: `🦷 Hello ${appt.patient}! Your premium session for ${appt.type} is confirmed for ${appt.date} at ${appt.time}. We look forward to seeing you at Smile Dental Clinic.`,
+                            body: `thanks for booking your appotiment\n\nDetails:\nName: ${appt.patient}\nDate: ${appt.date}\nTime: ${appt.time}\nDoctor: ${appt.doctor}`,
                             to: `whatsapp:${appt.phone}`
                         });
                         appt.notified = true;
@@ -432,11 +353,33 @@ const CalendarAgent = {
         let updates = false;
         db.appointments.forEach(appt => {
             if (appt.status === 'Confirmed' && !appt.calendarSync) {
-                // Generate deep link simulation
+                // Generate deep link dynamically based on appt date/time
                 const eventTitle = encodeURIComponent(`Dental: ${appt.type} - ${appt.patient}`);
-                appt.calendarSync = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=20241225T100000Z/20241225T110000Z`;
-                updates = true;
-                ErrorAgent.log('CalendarAgent', `Deep link generated for ${appt.patient}`);
+
+                // Parse Date and Time (Assuming format YYYY-MM-DD and HH:mm AM/PM)
+                // This is a basic parser. Ideally use moment or date-fns.
+                try {
+                    const dateParts = appt.date.split('-'); // 2023-10-25
+                    // Convert Time '10:00 AM' to 24h
+                    const [timeStr, period] = appt.time.split(' ');
+                    let [hours, minutes] = timeStr.split(':');
+                    if (period === 'PM' && hours !== '12') hours = parseInt(hours) + 12;
+                    if (period === 'AM' && hours === '12') hours = '00';
+
+                    // Construct ISO Strings roughly
+                    // Note: Google Calendar link expects YYYYMMDDTHHMMSSZ (UTC) or floating time
+                    // We'll use floating (local time) for simplicity: YYYYMMDDTHHMMSS
+                    const startStr = `${dateParts[0]}${dateParts[1]}${dateParts[2]}T${hours}${minutes}00`;
+                    // Assume 1 hour duration
+                    let endHours = parseInt(hours) + 1;
+                    const endStr = `${dateParts[0]}${dateParts[1]}${dateParts[2]}T${endHours.toString().padStart(2, '0')}${minutes}00`;
+
+                    appt.calendarSync = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${startStr}/${endStr}`;
+                    updates = true;
+                    ErrorAgent.log('CalendarAgent', `Deep link generated for ${appt.patient}`);
+                } catch (e) {
+                    ErrorAgent.log('CalendarAgent', `Error generating link for ${appt.id}: ${e.message}`, 'ERROR');
+                }
             }
         });
         return updates;
@@ -462,8 +405,8 @@ const runAgentCycle = async () => {
     }
 };
 
-// Run the multi-agent clinical OS every 30 seconds
-setInterval(runAgentCycle, 30000);
+// Run the multi-agent clinical OS every 60 seconds (Cleanup/Fallback)
+setInterval(runAgentCycle, 60000);
 ErrorAgent.log('System', 'Multi-Agent Clinical OS Initialized (v2.0 PRO)');
 
 app.get('/api/system/health', (req, res) => {
@@ -481,7 +424,7 @@ app.get('/api/system/health', (req, res) => {
 });
 
 // Catch-all route to serve React app for client-side routing (must be after API routes)
-app.get('*', (req, res) => {
+app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(__dirnameStatic, 'dist', 'index.html'));
 });
 
