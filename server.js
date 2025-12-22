@@ -424,7 +424,7 @@ app.get('/api/system/health', (req, res) => {
 });
 
 // Catch-all route to serve React app for client-side routing (must be after API routes)
-app.get(/^\/(?!api).*/, (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirnameStatic, 'dist', 'index.html'));
 });
 
