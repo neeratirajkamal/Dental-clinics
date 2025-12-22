@@ -1,0 +1,126 @@
+{
+  "appointments": [
+    {
+      "id": 1766221457107,
+      "status": "Confirmed",
+      "notes": "Booked online",
+      "patient": "kamal",
+      "age": "19",
+      "phone": "",
+      "whatsapp": "+916303551518",
+      "address": "",
+      "type": "Routine Checkup",
+      "doctor": "Dr. James Wilson",
+      "date": "2025-12-05",
+      "time": "09:00 AM",
+      "notified": "Simulated",
+      "calendarSync": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Dental%3A%20Routine%20Checkup%20-%20kamal&dates=20241225T100000Z/20241225T110000Z"
+    }
+  ],
+  "patients": [
+    {
+      "id": 1,
+      "name": "Sarah Johnson",
+      "age": 28,
+      "lastVisit": "2023-09-15",
+      "condition": "Healthy",
+      "nextAppt": "2023-10-25"
+    },
+    {
+      "id": 2,
+      "name": "Mike Brown",
+      "age": 35,
+      "lastVisit": "2023-08-20",
+      "condition": "Gingivitis",
+      "nextAppt": "2023-10-25"
+    },
+    {
+      "id": 3,
+      "name": "Emily Davis",
+      "age": 24,
+      "lastVisit": "N/A",
+      "condition": "New Patient",
+      "nextAppt": "2023-10-26"
+    },
+    {
+      "id": 1766221457122,
+      "name": "kamal",
+      "age": "19",
+      "phone": "N/A",
+      "lastVisit": "First Visit",
+      "condition": "New Patient",
+      "nextAppt": "2025-12-05"
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "text": "Dr. Wilson, could we reschedule my Tuesday visit?",
+      "sender": "Sarah J.",
+      "role": "doctor",
+      "read": false,
+      "timestamp": "2025-12-20T04:12:58.948Z"
+    },
+    {
+      "id": 2,
+      "text": "Your lab results are ready for review.",
+      "sender": "Lab Corp",
+      "role": "doctor",
+      "read": true,
+      "timestamp": "2025-12-19T04:12:58.952Z"
+    },
+    {
+      "id": 3,
+      "text": "Reminder: Your appointment is tomorrow at 10 AM.",
+      "sender": "System",
+      "role": "patient",
+      "read": false,
+      "timestamp": "2025-12-20T04:12:58.952Z"
+    },
+    {
+      "id": 1766204587408,
+      "text": "AI Auto-Confirmed: Appointment for Mike Brown validated.",
+      "sender": "AI Agent",
+      "role": "doctor",
+      "read": false,
+      "timestamp": "2025-12-20T04:23:07.407Z"
+    },
+    {
+      "id": 1766210604857,
+      "timestamp": "2025-12-20T06:03:24.775Z",
+      "read": true,
+      "role": "patient",
+      "type": "user",
+      "text": "hi",
+      "archived": false
+    },
+    {
+      "id": 1766210606793,
+      "timestamp": "2025-12-20T06:03:26.788Z",
+      "read": false,
+      "role": "patient",
+      "type": "info",
+      "text": "Thanks for your message! Our team will get back to you shortly.",
+      "archived": false
+    },
+    {
+      "id": 1766220996961,
+      "timestamp": "2025-12-20T08:56:36.874Z",
+      "read": true,
+      "role": "patient",
+      "type": "user",
+      "text": "Testing message from automated system.",
+      "archived": false
+    },
+    {
+      "id": 1766220998880,
+      "timestamp": "2025-12-20T08:56:38.877Z",
+      "read": false,
+      "role": "patient",
+      "type": "info",
+      "text": "Thanks for your message! Our team will get back to you shortly.",
+      "archived": false
+    }
+  ],
+  "doctors": []
+}
