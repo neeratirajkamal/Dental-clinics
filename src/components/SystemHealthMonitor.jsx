@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Activity, MessageCircle, Calendar, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
+import { api } from '../services/api';
 
 export const SystemHealthMonitor = () => {
     const [health, setHealth] = useState(null);
@@ -7,8 +8,7 @@ export const SystemHealthMonitor = () => {
 
     const fetchHealth = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/system/health');
-            const data = await response.json();
+            const data = await api.getSystemHealth();
             setHealth(data);
         } catch (error) {
             console.error('Failed to fetch system health:', error);

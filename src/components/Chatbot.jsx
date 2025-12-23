@@ -7,7 +7,7 @@ export const Chatbot = ({ onBookAppointment }) => {
     {
       id: 1,
       type: 'bot',
-      text: 'Welcome to Our Dental clinic services how can I assist you Today/',
+      text: 'Welcome to Smile Dental Clinic! How can I assist you today?',
       timestamp: new Date()
     }
   ]);
@@ -30,7 +30,7 @@ export const Chatbot = ({ onBookAppointment }) => {
     'orthodontics': 'Orthodontic Treatment includes braces, aligners, and other solutions to straighten teeth and correct bite issues. Duration: 12-24 months. Cost: $3000-$7000.',
     'services': 'We offer:\n• Routine Checkup\n• Dental Cleaning\n• Root Canal Treatment\n• Teeth Whitening\n• Orthodontics\n• Emergency Dental Care\n• Cosmetic Dentistry\n• Pediatric Dentistry',
     'hours': 'Our clinic hours:\nMonday - Friday: 9:00 AM - 6:00 PM\nSaturday: 10:00 AM - 4:00 PM\nSunday: Closed',
-    'contact': 'You can reach us at:\n📞 Phone: 6303551518\n📧 Email: info@dentalclinic.com\n📍 Address: 123 Dental Street, Healthcare City',
+    'contact': 'You can reach us at:\n📞 Phone: +91 6303551518\n📧 Email: info@smiledental.com\n📍 Address: 123 Dental Street, Healthcare City',
     'appointment': 'I can help you book an appointment! Please click the "Book Appointment" button below, and I\'ll guide you through the process.',
     'emergency': 'For dental emergencies, please call us immediately at 6303551518. We provide same-day emergency appointments for urgent cases.',
     'insurance': 'We accept most major dental insurance plans including Delta Dental, Cigna, Aetna, and MetLife. Please bring your insurance card to your appointment.',
@@ -85,7 +85,7 @@ export const Chatbot = ({ onBookAppointment }) => {
 
     // Check for booking related queries
     if (input.match(/\b(book|schedule|appointment|reserve)\b/)) {
-      return 'Hello! We are from Dental Clinic. Do you want to book an appointment? Click the "Book via WhatsApp" button below to start our automated booking process, or use the "Book Form" for manual entry.';
+      return 'Hello! We are from Smile Dental Clinic. Do you want to book an appointment? Click the "Book via WhatsApp" button below to start our automated booking process, or use the "Book Form" for manual entry.';
     }
 
     // Check for pricing queries
@@ -104,7 +104,7 @@ export const Chatbot = ({ onBookAppointment }) => {
 
   const handleWhatsAppBooking = () => {
     const phoneNumber = "6303551518"; // Updated WhatsApp Business Number
-    const message = encodeURIComponent("Hello, we are from Dental Clinic. I would like to book an appointment. Please guide me through the automation flow.");
+    const message = encodeURIComponent("Hello! I would like to book an appointment at Smile Dental Clinic. Please guide me through the automation flow.");
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
 
     // Also provide feedback in the chat

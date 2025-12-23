@@ -9,3 +9,7 @@ services:
         value: production
       - key: PORT
         value: 3000
+    disk:
+      name: dental-data
+      mountPath: /data
+      sizeGB: 1

@@ -5,8 +5,15 @@ export const api = {
     getPatients: async () => (await fetch(`${BASE_URL}/patients`).then(res => res.json())),
     getMessages: async () => (await fetch(`${BASE_URL}/messages`).then(res => res.json())),
     getDoctors: async () => (await fetch(`${BASE_URL}/doctors`).then(res => res.json())),
+    getServices: async () => (await fetch(`${BASE_URL}/services`).then(res => res.json())),
 
     createAppointment: async (data) => (await fetch(`${BASE_URL}/appointments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).then(res => res.json())),
+
+    createPatient: async (data) => (await fetch(`${BASE_URL}/patients`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -34,5 +41,14 @@ export const api = {
 
     deletePatient: async (id) => (await fetch(`${BASE_URL}/patients/${id}`, {
         method: 'DELETE'
-    }).then(res => res.json()))
+    }).then(res => res.json())),
+
+    updatePatient: async (id, data) => (await fetch(`${BASE_URL}/patients/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).then(res => res.json())),
+
+    getAvailableSlots: async (date, doctor) => (await fetch(`${BASE_URL}/available-slots?date=${date}&doctor=${encodeURIComponent(doctor)}`).then(res => res.json())),
+    getSystemHealth: async () => (await fetch(`${BASE_URL}/system/health`).then(res => res.json()))
 };

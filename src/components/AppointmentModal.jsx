@@ -15,7 +15,7 @@ export const AppointmentModal = ({ isOpen, onClose, onSave, doctors = [] }) => {
     patient: '',
     age: '',
     phone: '',
-    whatsapp: '6303551518',
+    whatsapp: '+91 6303551518',
     address: '',
     type: '',
     doctor: '',
@@ -145,7 +145,7 @@ export const AppointmentModal = ({ isOpen, onClose, onSave, doctors = [] }) => {
               {step === 4 ? <CheckCircle2 size={20} color="#059669" /> : <Calendar size={20} color="var(--primary)" />}
             </div>
             <div>
-              <h3 style={{ margin: 0 }}>{step === 4 ? 'Booking Confirmed' : 'Clinic Concierge'}</h3>
+              <h3 style={{ margin: 0 }}>{step === 4 ? 'Booking Confirmed' : 'Smile Dental Concierge'}</h3>
               <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: 0 }}>Step {step} of 4</p>
             </div>
           </div>
@@ -342,15 +342,15 @@ export const AppointmentModal = ({ isOpen, onClose, onSave, doctors = [] }) => {
               <div className="booking-progress">
                 <div className="progress-step completed">
                   <CheckCircle2 size={20} />
-                  <span>[Agent] Coordinator: Confirmed Priority</span>
+                  <span>[Agent] Coordinator: Verifying Priority</span>
                 </div>
                 <div className="progress-step completed">
                   <CheckCircle2 size={20} />
-                  <span>[Agent] Notifier: WhatsApp Sync Ready</span>
+                  <span>[Agent] Calendar: Syncing Medical Slot</span>
                 </div>
                 <div className="progress-step active">
                   <Loader size={20} className="spinning-small" />
-                  <span>[Agent] Calendar: Generating Google Link</span>
+                  <span>[Agent] Notifier: Preparing WhatsApp Concierge</span>
                 </div>
               </div>
             </div>

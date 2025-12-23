@@ -277,9 +277,14 @@ function App() {
     } catch (e) { console.error(e); }
   };
 
-  const addPatient = (newPat) => {
-    // Add logic for createPatient if API endpoint is added later (left as local for now based on instructions)
-    setPatients([...patients, { ...newPat, id: `#P-${Date.now().toString().slice(-4)}` }]);
+  const addPatient = async (newPat) => {
+    let savedPat = { ...newPat, id: Date.now(), lastVisit: 'N/A', condition: 'New Patient' };
+    try {
+      const res = await api.createPatient(newPat);
+      if (res.success) savedPat = res.patient;
+    } catch (e) { console.error(e); }
+
+    setPatients(prev => [...prev, savedPat]);
     setNotification({ message: `Patient ${newPat.name} added to records`, type: 'success' });
   };
 
@@ -289,6 +294,17 @@ function App() {
       setPatients(patients.filter(p => p.id !== id));
       setNotification({ message: 'Patient record deleted', type: 'info' });
     } catch (e) { console.error(e); }
+  };
+
+  const updatePatient = async (updatedPat) => {
+    try {
+      await api.updatePatient(updatedPat.id, updatedPat);
+      setPatients(prev => prev.map(p => p.id === updatedPat.id ? updatedPat : p));
+      setNotification({ message: `Patient ${updatedPat.name} updated`, type: 'success' });
+    } catch (e) {
+      console.error('Update failed', e);
+      setNotification({ message: 'Failed to update patient record', type: 'error' });
+    }
   };
 
 
@@ -365,7 +381,7 @@ function App() {
           {/* Internal Routes matching as children of Layout */}
           <Route path="/portal" element={renderDashboard()} />
           <Route path="/doctors" element={<Doctors doctors={doctors} onAdd={addDoctor} onDelete={deleteDoctor} />} />
-          <Route path="/patients" element={<Patients patients={patients} onAdd={addPatient} onDelete={deletePatient} />} />
+          <Route path="/patients" element={<Patients patients={patients} onAdd={addPatient} onDelete={deletePatient} onUpdatePatient={updatePatient} />} />
           <Route path="/appointments" element={<Appointments appointments={appointments} onAdd={addAppointment} onDelete={deleteAppointment} doctors={doctors} />} />
           <Route path="/reports" element={<Reports appointments={appointments} patientsCount={patients.length} />} />
           <Route path="/services" element={<ClinicalServices />} />

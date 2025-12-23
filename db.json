@@ -15,6 +15,60 @@
       "time": "09:00 AM",
       "notified": "Simulated",
       "calendarSync": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Dental%3A%20Routine%20Checkup%20-%20kamal&dates=20241225T100000Z/20241225T110000Z"
+    },
+    {
+      "id": 1766409526566,
+      "status": "Confirmed",
+      "notes": "Booked online",
+      "patient": "Raj kamal",
+      "email": "ac@gmail.com",
+      "phone": "917643672837",
+      "age": "21",
+      "date": "2025-12-24",
+      "time": "09:30 AM",
+      "doctor": "Dr. Smith",
+      "specialty": "General Dentist",
+      "treatmentType": "Checkup",
+      "type": "Checkup",
+      "timestamp": "2025-12-22T13:18:46.566Z",
+      "notified": "Simulated",
+      "calendarSync": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Dental%3A%20Checkup%20-%20Raj%20kamal&dates=20251224T093000/20251224T103000"
+    },
+    {
+      "id": 1766473098349,
+      "status": "Confirmed",
+      "notes": "Booked online",
+      "patient": "Test Patient",
+      "email": "test@example.com",
+      "phone": "+91 9999999999",
+      "age": "25",
+      "date": "2025-12-24",
+      "time": "10:00 AM",
+      "doctor": "Dr. Smith",
+      "specialty": "General Dentist",
+      "treatmentType": "Cleaning",
+      "type": "Cleaning",
+      "timestamp": "2025-12-23T06:58:18.349Z",
+      "notified": "Simulated",
+      "calendarSync": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Dental%3A%20Cleaning%20-%20Test%20Patient&dates=20251224T100000/20251224T110000"
+    },
+    {
+      "id": 1766473550680,
+      "status": "Confirmed",
+      "notes": "Booked online",
+      "patient": "Test Proof",
+      "email": "proof@example.com",
+      "phone": "+91 0000000000",
+      "age": "30",
+      "date": "2025-12-24",
+      "time": "11:00 AM",
+      "doctor": "Dr. Smith",
+      "specialty": "General Dentist",
+      "treatmentType": "Cleaning",
+      "type": "Cleaning",
+      "timestamp": "2025-12-23T07:05:50.680Z",
+      "notified": "Simulated",
+      "calendarSync": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Dental%3A%20Cleaning%20-%20Test%20Proof&dates=20251224T110000/20251224T120000"
     }
   ],
   "patients": [
@@ -50,6 +104,33 @@
       "lastVisit": "First Visit",
       "condition": "New Patient",
       "nextAppt": "2025-12-05"
+    },
+    {
+      "id": 1766409526573,
+      "name": "Raj kamal",
+      "age": "21",
+      "phone": "917643672837",
+      "lastVisit": "First Visit",
+      "condition": "New Patient",
+      "nextAppt": "2025-12-24"
+    },
+    {
+      "id": 1766473098450,
+      "name": "Test Patient",
+      "age": "25",
+      "phone": "+91 9999999999",
+      "lastVisit": "First Visit",
+      "condition": "New Patient",
+      "nextAppt": "2025-12-24"
+    },
+    {
+      "id": 1766473550705,
+      "name": "Test Proof",
+      "age": "30",
+      "phone": "+91 0000000000",
+      "lastVisit": "First Visit",
+      "condition": "New Patient",
+      "nextAppt": "2025-12-24"
     }
   ],
   "messages": [
@@ -122,5 +203,16 @@
       "archived": false
     }
   ],
-  "doctors": []
+  "doctors": [
+    {
+      "id": 1766409102582,
+      "patients": 0,
+      "name": "Dr. Smith",
+      "specialty": "General Dentist",
+      "experience": "10",
+      "license": "12345",
+      "phone": "1234567890",
+      "email": "drsmith@example.com"
+    }
+  ]
 }

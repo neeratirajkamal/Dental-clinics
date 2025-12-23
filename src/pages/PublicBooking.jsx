@@ -1,18 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, User, Phone, Activity, CheckCircle, ChevronLeft, ChevronRight, Clock, MapPin, Star, MessageCircle } from 'lucide-react';
+import { api } from '../services/api';
 
 // Clinic WhatsApp Number (Update this to your actual clinic number with country code)
 const CLINIC_WHATSAPP = '916303551518'; // Real clinic number
 const CLINIC_NAME = 'Smile Dental Clinic';
-const BOOKING_PAGE_URL = 'http://localhost:5173/book'; // Update for production
+const BOOKING_PAGE_URL = `${window.location.origin}/book`; // Dynamic origin
 
-// Doctor Data - Dental Specialists
-const doctors = [
-    { id: 1, name: 'Dr. Anjali Sharma', specialty: 'General Dentist', rating: 4.9, available: true, image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300&h=300' },
-    { id: 2, name: 'Dr. Ramesh Verma', specialty: 'Orthodontist', rating: 4.8, available: true, image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=300&h=300' },
-    { id: 3, name: 'Dr. Sarah Wilson', specialty: 'Cosmetic Dentist', rating: 4.9, available: true, image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=300&h=300' },
-    { id: 4, name: 'Dr. Priya Patel', specialty: 'Pediatric Dentist', rating: 4.7, available: true, image: 'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?auto=format&fit=crop&q=80&w=300&h=300' }
-];
+// Doctor Data will be fetched from API
 
 // Time Slots
 const timeSlots = [
@@ -34,7 +29,7 @@ const getNextDays = () => {
     return days;
 };
 
-const StepDoctor = ({ formData, setFormData, handleNext }) => (
+const StepDoctor = ({ doctors, formData, setFormData, handleNext }) => (
     <div className="step-content">
         <h2 className="step-title">Choose Your Dentist</h2>
         <p className="step-subtitle">Select a specialist for your dental care</p>
@@ -82,8 +77,7 @@ const StepDateTime = ({ formData, setFormData, handleBack, handleNext }) => {
 
             setIsLoadingSlots(true);
             try {
-                const res = await fetch(`/api/available-slots?date=${formData.date}&doctor=${encodeURIComponent(formData.doctor)}`);
-                const slots = await res.json();
+                const slots = await api.getAvailableSlots(formData.date, formData.doctor);
                 setAvailableSlots(slots);
             } catch (err) {
                 console.error("Failed to fetch slots", err);
@@ -302,6 +296,20 @@ const StepSuccess = ({ formData }) => (
 export const PublicBooking = () => {
     const [step, setStep] = useState(1);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [doctors, setDoctors] = useState([]);
+
+    useEffect(() => {
+        const fetchDoctors = async () => {
+            try {
+                const docs = await api.getDoctors();
+                setDoctors(docs);
+            } catch (err) {
+                console.error("Failed to fetch doctors", err);
+            }
+        };
+        fetchDoctors();
+    }, []);
+
     const [formData, setFormData] = useState(() => {
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
@@ -355,11 +363,7 @@ export const PublicBooking = () => {
         };
 
         try {
-            await fetch('/api/appointments', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newAppt)
-            });
+            await api.createAppointment(newAppt);
 
             // Step 2: Database success
             setTimeout(() => setProcessingStep(2), 2000);
@@ -444,21 +448,21 @@ export const PublicBooking = () => {
                             <div className="agent-status-list">
                                 <div className={`status-item ${processingStep >= 1 ? 'completed' : 'pending'}`}>
                                     {processingStep >= 1 ? <CheckCircle size={16} className="text-success" /> : <div className="spinner-micro"></div>}
-                                    <span>System: Validating Patient ID...</span>
+                                    <span>[Agent] Coordinator: Verifying Priority...</span>
                                 </div>
                                 <div className={`status-item ${processingStep >= 2 ? 'completed' : 'pending'}`}>
                                     {processingStep >= 2 ? <CheckCircle size={16} className="text-success" /> : <div className="spinner-micro"></div>}
-                                    <span>Calendar Agent: Locking {formData.date} Slot...</span>
+                                    <span>[Agent] Calendar: Syncing Medical Slot...</span>
                                 </div>
                                 <div className={`status-item ${processingStep >= 3 ? 'completed' : 'pending'}`}>
                                     {processingStep >= 3 ? <CheckCircle size={16} className="text-success" /> : <div className="spinner-micro"></div>}
-                                    <span>Notifier: Preparing WhatsApp Confirmation...</span>
+                                    <span>[Agent] Notifier: Preparing WhatsApp Concierge...</span>
                                 </div>
                             </div>
                         </div>
                     ) : (
                         <>
-                            {step === 1 && <StepDoctor formData={formData} setFormData={setFormData} handleNext={handleNext} />}
+                            {step === 1 && <StepDoctor doctors={doctors} formData={formData} setFormData={setFormData} handleNext={handleNext} />}
                             {step === 2 && <StepDateTime formData={formData} setFormData={setFormData} handleBack={handleBack} handleNext={handleNext} />}
                             {step === 3 && <StepDetails formData={formData} setFormData={setFormData} handleBack={handleBack} handleSubmit={handleSubmit} />}
                             {step === 4 && <StepSuccess formData={formData} />}
@@ -491,6 +495,10 @@ export const PublicBooking = () => {
                     --card-bg: rgba(255, 255, 255, 0.95);
                     --success: #10b981;
                     --whatsapp: #25D366;
+                }
+
+                .text-success {
+                    color: #10b981;
                 }
 
                 .booking-wrapper {

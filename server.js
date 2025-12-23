@@ -19,7 +19,11 @@ app.use(express.static(path.join(__dirnameStatic, 'dist')));
 
 // --- Persistence Helper ---
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DB_FILE = path.join(__dirname, 'db.json');
+// Use /data/db.json if it exists (Render persistent disk), otherwise local db.json
+const PERSISTENT_DIR = '/data';
+const DB_FILE = fs.existsSync(PERSISTENT_DIR)
+    ? path.join(PERSISTENT_DIR, 'db.json')
+    : path.join(__dirname, 'db.json');
 
 const defaultData = {
     appointments: [
@@ -41,6 +45,12 @@ const defaultData = {
         { id: 1, name: 'Dr. Anjali Sharma', specialty: 'General Physician', patients: 120, rating: 4.9, available: true, image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300&h=300' },
         { id: 2, name: 'Dr. Ramesh Verma', specialty: 'Dermatologist', patients: 85, rating: 4.8, available: true, image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=300&h=300' },
         { id: 3, name: 'Dr. Sarah Wilson', specialty: 'Dentist', patients: 200, rating: 4.9, available: true, image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=300&h=300' }
+    ],
+    services: [
+        { id: 1, name: "Precision Whitening", category: "Aesthetics", price: "299", duration: "45m", rating: "4.9", description: "Advanced laser whitening for a brilliant, hospital-grade smile finish.", image: "/assets/images/dental-hero-3.jpg" },
+        { id: 2, name: "Bio-Implant Sync", category: "Surgery", price: "1,200", duration: "90m", rating: "5.0", description: "Digital-mapped dental implants for permanent, natural-feel restoration.", image: "/assets/images/dental-hero-4.jpg" },
+        { id: 3, name: "Clinical Cleanse", category: "Hygiene", price: "150", duration: "30m", rating: "4.8", description: "Deep ultrasonic scaling and clinical polishing for optimal gum health.", image: "/assets/images/dental-hero-1.jpg" },
+        { id: 4, name: "Digital Aligners", category: "Orthodontics", price: "3,500", duration: "Monthly", rating: "4.9", description: "Custom-modeled clear aligners for precise, invisible smile correction.", image: "/assets/images/dental-hero-2.jpg" }
     ]
 };
 
@@ -100,12 +110,18 @@ app.post('/api/appointments', async (req, res) => {
             phone: newAppt.phone || 'N/A',
             lastVisit: 'First Visit',
             condition: 'New Patient',
-            nextAppt: newAppt.date
+            nextAppt: newAppt.date,
+            treatment: newAppt.type // Store the treatment type
         });
+    } else {
+        // Update next appointment for existing patient
+        existingPatient.nextAppt = newAppt.date;
+        existingPatient.treatment = newAppt.type;
     }
 
     saveDB();
     console.log('New Appointment Booked:', newAppt);
+    ErrorAgent.log('Coordinator', `New booking received for ${newAppt.patient} (${newAppt.type}).`, 'SUCCESS');
 
     // --- N8N Automation Trigger ---
     if (process.env.N8N_WEBHOOK_URL) {
@@ -157,6 +173,18 @@ app.delete('/api/appointments/:id', (req, res) => {
 // Patients
 app.get('/api/patients', (req, res) => res.json(db.patients));
 
+app.post('/api/patients', (req, res) => {
+    const newPat = {
+        id: Date.now(),
+        lastVisit: 'N/A',
+        condition: 'New Patient',
+        ...req.body
+    };
+    db.patients.push(newPat);
+    saveDB();
+    res.json({ success: true, patient: newPat });
+});
+
 app.delete('/api/patients/:id', (req, res) => {
     // ID might be string like "#P-1234" or number
     const id = req.params.id;
@@ -164,6 +192,18 @@ app.delete('/api/patients/:id', (req, res) => {
     db.patients = db.patients.filter(p => p.id != id);
     saveDB();
     res.json({ success: true });
+});
+
+app.put('/api/patients/:id', (req, res) => {
+    const id = req.params.id;
+    const index = db.patients.findIndex(p => p.id == id);
+    if (index !== -1) {
+        db.patients[index] = { ...db.patients[index], ...req.body };
+        saveDB();
+        res.json({ success: true, patient: db.patients[index] });
+    } else {
+        res.status(404).json({ success: false, message: 'Patient not found' });
+    }
 });
 
 // Messages
@@ -203,6 +243,9 @@ app.delete('/api/doctors/:id', (req, res) => {
     res.json({ success: true });
 });
 
+// Services
+app.get('/api/services', (req, res) => res.json(db.services || []));
+
 // Extra delete endpoints - already consolidated above
 // Removed duplicated blocks below to avoid confusion
 
@@ -235,7 +278,7 @@ app.get('/api/available-slots', (req, res) => {
 
 // WhatsApp Bot Webhook - Enhanced Dental Clinic Flow (MediEaseAI Style)
 const userState = {};
-const CLINIC_NAME = 'Dental Clinic';
+const CLINIC_NAME = 'Smile Dental Clinic';
 const BOOKING_URL = 'https://subdeltaic-angele-nonphrenetically.ngrok-free.dev/book';
 
 app.post('/incoming-whatsapp', async (req, res) => {
@@ -249,11 +292,11 @@ app.post('/incoming-whatsapp', async (req, res) => {
 
     // Initial greeting when user sends Hi
     if (body === 'hi' || body === 'hello' || body === 'hey' || body === 'hy') {
-        responseText = `Welcome to Dental Clinic How can I assist you Today ?\n\nClick below to book an appointment:\n${BOOKING_URL}`;
+        responseText = `Welcome to Smile Dental Clinic! 🦷\n\nHow can I assist you today? I am your AI Clinical Assistant.\n\nTo book an appointment, please click below:\n${BOOKING_URL}`;
     }
     // Fallback for other inputs
     else {
-        responseText = `Welcome to Dental Clinic How can I assist you Today ?\n\nClick below to book an appointment:\n${BOOKING_URL}`;
+        responseText = `Welcome to Smile Dental Clinic! 🦷\n\nI noticed you sent: "${originalBody}".\n\nIf you'd like to book an appointment, please use our interactive portal:\n${BOOKING_URL}\n\nFor emergencies, please call +91 6303551518.`;
     }
 
     const twiml = new twilio.twiml.MessagingResponse();
@@ -424,7 +467,7 @@ app.get('/api/system/health', (req, res) => {
 });
 
 // Catch-all route to serve React app for client-side routing (must be after API routes)
-app.get('*', (req, res) => {
+app.get(/^(?!\/api).*/, (req, res) => {
     res.sendFile(path.join(__dirnameStatic, 'dist', 'index.html'));
 });
 

@@ -1,6 +1,7 @@
-import React from 'react';
 import { ShoppingBag, ChevronRight, Star, Clock, ShieldCheck, Zap } from 'lucide-react';
 import { HeroBanner } from '../components/HeroBanner';
+import { api } from '../services/api';
+import { useState, useEffect } from 'react';
 
 const ServiceCard = ({ name, category, price, duration, rating, image, description }) => (
     <div className="service-vignette glass-card hover-lift animate-pop">
@@ -49,48 +50,22 @@ const ServiceCard = ({ name, category, price, duration, rating, image, descripti
 );
 
 export const ClinicalServices = () => {
-    const services = [
-        {
-            id: 1,
-            name: "Precision Whitening",
-            category: "Aesthetics",
-            price: "299",
-            duration: "45m",
-            rating: "4.9",
-            description: "Advanced laser whitening for a brilliant, hospital-grade smile finish.",
-            image: "/assets/images/dental-hero-3.jpg"
-        },
-        {
-            id: 2,
-            name: "Bio-Implant Sync",
-            category: "Surgery",
-            price: "1,200",
-            duration: "90m",
-            rating: "5.0",
-            description: "Digital-mapped dental implants for permanent, natural-feel restoration.",
-            image: "/assets/images/dental-hero-4.jpg"
-        },
-        {
-            id: 3,
-            name: "Clinical Cleanse",
-            category: "Hygiene",
-            price: "150",
-            duration: "30m",
-            rating: "4.8",
-            description: "Deep ultrasonic scaling and clinical polishing for optimal gum health.",
-            image: "/assets/images/dental-hero-1.jpg"
-        },
-        {
-            id: 4,
-            name: "Digital Aligners",
-            category: "Orthodontics",
-            price: "3,500",
-            duration: "Monthly",
-            rating: "4.9",
-            description: "Custom-modeled clear aligners for precise, invisible smile correction.",
-            image: "/assets/images/dental-hero-2.jpg"
-        }
-    ];
+    const [services, setServices] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const data = await api.getServices();
+                setServices(data);
+            } catch (err) {
+                console.error("Failed to fetch services", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchServices();
+    }, []);
 
     return (
         <div className="clinical-services-page">
@@ -123,9 +98,20 @@ export const ClinicalServices = () => {
                 </div>
 
                 <div className="services-grid">
-                    {services.map(service => (
-                        <ServiceCard key={service.id} {...service} />
-                    ))}
+                    {loading ? (
+                        <div className="loading-state">
+                            <Zap className="animate-pulse" size={48} />
+                            <p>Loading Clinical Catalog...</p>
+                        </div>
+                    ) : services.length === 0 ? (
+                        <div className="empty-state">
+                            <p>No services found in our catalog.</p>
+                        </div>
+                    ) : (
+                        services.map(service => (
+                            <ServiceCard key={service.id} {...service} />
+                        ))
+                    )}
                 </div>
             </div>
 

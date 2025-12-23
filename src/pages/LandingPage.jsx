@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, Calendar, Activity, ShieldCheck, Heart, User, Menu, X, Phone, MapPin, Clock, Star, MessageCircle } from 'lucide-react';
+import { api } from '../services/api';
 
 // Use public root images for reliable loading
 const hero1 = '/hero-1.jpg';
@@ -11,6 +12,12 @@ export const LandingPage = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [stats, setStats] = useState([
+        { number: '5000+', label: 'Happy Patients' },
+        { number: '15+', label: 'Years Experience' },
+        { number: '4.9', label: 'Star Rating' },
+        { number: '24/7', label: 'Emergency Care' }
+    ]);
 
     const sliderImages = [
         { src: hero1, alt: 'Our Dental Team', caption: 'Expert Care by Our Team' },
@@ -35,18 +42,36 @@ export const LandingPage = () => {
         return () => clearInterval(interval);
     }, [sliderImages.length]);
 
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const [patients, doctors] = await Promise.all([
+                    api.getPatients(),
+                    api.getDoctors()
+                ]);
+
+                const avgRating = doctors.length > 0
+                    ? (doctors.reduce((acc, doc) => acc + (doc.rating || 0), 0) / doctors.length).toFixed(1)
+                    : '4.9';
+
+                setStats([
+                    { number: `${patients.length}+`, label: 'Happy Patients' },
+                    { number: '15+', label: 'Years Experience' },
+                    { number: avgRating, label: 'Star Rating' },
+                    { number: '24/7', label: 'Emergency Care' }
+                ]);
+            } catch (err) {
+                console.error("Failed to fetch landing stats", err);
+            }
+        };
+        fetchStats();
+    }, []);
+
     const services = [
         { icon: '🦷', title: 'General Dentistry', desc: 'Checkups, cleanings, and preventive care' },
         { icon: '✨', title: 'Cosmetic Dentistry', desc: 'Whitening, veneers, and smile makeovers' },
         { icon: '🔧', title: 'Restorative Care', desc: 'Fillings, crowns, and implants' },
         { icon: '👶', title: 'Pediatric Dentistry', desc: 'Gentle care for children of all ages' }
-    ];
-
-    const stats = [
-        { number: '5000+', label: 'Happy Patients' },
-        { number: '15+', label: 'Years Experience' },
-        { number: '4.9', label: 'Star Rating' },
-        { number: '24/7', label: 'Emergency Care' }
     ];
 
     const testimonials = [
@@ -70,7 +95,7 @@ export const LandingPage = () => {
                 <div className="nav-container">
                     <div className="logo-container" onClick={() => navigate('/landing')}>
                         <div className="logo-icon">🦷</div>
-                        <span className="logo-text">Smile <span className="text-accent">Dental</span></span>
+                        <span className="logo-text">Smile Dental <span className="text-accent">Clinic</span></span>
                     </div>
 
                     {/* Desktop Nav */}
@@ -290,7 +315,7 @@ export const LandingPage = () => {
                         <div className="footer-brand">
                             <div className="logo-container">
                                 <div className="logo-icon">🦷</div>
-                                <span className="logo-text">Smile Dental</span>
+                                <span className="logo-text">Smile Dental Clinic</span>
                             </div>
                             <p>Your trusted partner for all dental care needs. Quality treatment with a gentle touch.</p>
                         </div>
